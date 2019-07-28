@@ -1,0 +1,24 @@
+{
+  "name": "block-auth_iot_example",
+  "version": "1.0.0",
+  "description": "block auth project",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkay47/block-auth_iot_example.git"
+  },
+  "author": "201402344@student.uj.ac.za",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mkay47/block-auth_iot_example/issues"
+  },
+  "homepage": "https://github.com/mkay47/block-auth_iot_example#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "web3": "^1.2.0"
+  }
+}
