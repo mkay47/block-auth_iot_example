@@ -6,7 +6,7 @@ const abi = require('./config/abi');
 
 var Web3 = require('web3');
 
-var web3 = new Web3(Web3.providers.WebsocketProvider('ws://0.0.0.0:8545'));
+var web3 = new Web3(Web3.providers.WebsocketProvider('ws://192.168.8.106:8545'));
 //var web3 = new Web3(Web3.currentProvider || 'ws://192.168.8.106:8545');
 //var web3 = new Web3(new Web3.providers.HttpProvider('http://192.168.8.106:8545'));
 
