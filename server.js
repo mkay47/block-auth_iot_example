@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 
-const address = require('./config/address.js');
-const abi = require('./config/abi');
+var address = require('./config/address.js');
+var abi = require('./config/abi');
 
 var Web3 = require('web3');
 
@@ -27,9 +27,8 @@ app.get('/', function(req, res) {
 });
 
 var server = app.listen(8081, function() {
-    const host = "127.0.0.1";
-    const port = server.address().port;
+    var host = "127.0.0.1";
+    var port = server.address().port;
 
     console.log("Device listening at http://%s:%s", host, port);
-
 });
