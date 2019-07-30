@@ -11,15 +11,7 @@ module.exports = [
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x09bd5a60"
-    },
-    {
-      "inputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "function"
     },
     {
       "anonymous": false,
@@ -31,31 +23,12 @@ module.exports = [
         },
         {
           "indexed": false,
-          "name": "password",
+          "name": "token",
           "type": "bytes32"
         }
       ],
       "name": "LoggedIn",
-      "type": "event",
-      "signature": "0x41aef8183964a2812ac89ffb7a998d625983a19b88633aca08d09afe9acdadbe"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_receiver",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "message",
-          "type": "string"
-        }
-      ],
-      "name": "Message",
-      "type": "event",
-      "signature": "0x811f7cff0a3374ff67cccc3726035d34ba70410e0256818a891e4d6acc01d88e"
+      "type": "event"
     },
     {
       "constant": false,
@@ -69,8 +42,7 @@ module.exports = [
       ],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x3b3dca76"
+      "type": "function"
     },
     {
       "constant": false,
@@ -79,26 +51,6 @@ module.exports = [
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xf00ac1da"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "name": "message",
-          "type": "string"
-        }
-      ],
-      "name": "SendToken",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xcc867dfd"
+      "type": "function"
     }
   ];
