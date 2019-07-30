@@ -1,13 +1,11 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 
-// Create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+const address = require('./config/address.js');
+const abi = require('./config/abi');
 
-const Address = require('./config/Address.js');
-const ABI = require('./config/ABI.js');
 var Web3 = require('web3');
+<<<<<<< HEAD
 var message = "";
 
 app.use(function(req, res, next) {
@@ -24,17 +22,18 @@ app.post('/auth_data',urlencodedParser, function (req, res) {
     
     host =  req.socket.remoteAddress;
     port = req.socket.remotePort;
+=======
+
+var web3 = new Web3(Web3.currentProvider || 'ws://localhost:8545');
+
+var auth = new web3.eth.Contract(abi, address);
+
+app.get('/', function(req, res) {
+>>>>>>> 1df451a531eca4094d98d00bf2c3e4f7cf4c2d33
     res.setHeader('Content-Type', 'application/json');
-    
-    console.log('CONNECTED Client');
-    console.log("HOST",host);
-    console.log("PORT",port);
-    
-    message = req.body.message;
-    publicKey = req.body.public_key;
+    console.log("hello world");
 
-    result = message.split(",");
-
+<<<<<<< HEAD
     console.log("TOKEN",result[0]);
     console.log("IP",result[1]);
     console.log("TIME",result[2]);
@@ -46,38 +45,17 @@ app.post('/auth_data',urlencodedParser, function (req, res) {
 
     auth.once('LoggedIn', {
         filter: {myIndexedParam: [20,23], myOtherIndexedParam: '0x123456789...'}, // Using an array means OR: e.g. 20 or 23
+=======
+    auth.once('LoginAttempt', {
+        filter: { myIndexedParam: [20, 23], myOtherIndexedParam: '0x123456789...' }, // Using an array means OR: e.g. 20 or 23
+>>>>>>> 1df451a531eca4094d98d00bf2c3e4f7cf4c2d33
         fromBlock: 0
-    }, function(error, event)
-    {
-        if(!error){
-            //console.log("event",event); 
-            sender = event.returnValues.username;
-            token = event.returnValues.password;
+    }, function(error, event) { console.log(event); });
 
-            console.log("\x1b[42m","[+] Authentication Event Arrived")
-            console.log("\x1b[0m","\n");
+    res.end('hello world');
+    res.send();
 
-            console.log("token",token);
-            console.log("sender",sender);
-
-            if(token == result[0])
-            {
-                console.log("\x1b[42m","[+] User Validated .. Access Granted");
-                console.log("\x1b[0m","\n");
-                res.end('{ "message": "Access Granted" }');
-                res.send()
-            }else{
-                console.log("\x1b[41m","[+] Invalid User .. Access Denied");
-			    console.log("\x1b[0m","\n");
-                res.end('{ "message": "Access Granted" }');
-                res.send()
-            }
-        }
-    });
-
-    console.log("message",message);
-    console.log("key",publicKey);
-
+<<<<<<< HEAD
     res.end('{ "message": "Welcome to iot device server" }');
     res.send()
     
@@ -96,3 +74,14 @@ var server = app.listen(8081, function () {
     
     console.log("Device listening at http://%s:%s", host, port);
  })
+=======
+});
+
+var server = app.listen(8081, function() {
+    const host = "127.0.0.1";
+    const port = server.address().port;
+
+    console.log("Device listening at http://%s:%s", host, port);
+
+});
+>>>>>>> 1df451a531eca4094d98d00bf2c3e4f7cf4c2d33
