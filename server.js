@@ -87,7 +87,7 @@ app.post('/connect', urlencodedParser, function(req, res) {
 });
 
 var server = app.listen(8081, function() {
-    var host = "127.0.0.1";
+    var host = "192.168.8.186";
     var port = server.address().port;
 
     console.log("Device listening at http://%s:%s", host, port);
