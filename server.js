@@ -16,18 +16,26 @@ var auth = new web3.eth.Contract(abi, address);
 
 var token = '';
 var sender = '';
+var ip = '192.168.8.186:8081';
 var message = '';
 var event_happened = false;
 
-auth.once('LoginAttempt', {
+auth.once('DistributeToken', {
     filter: { myIndexedParam: [20, 23], myOtherIndexedParam: '0x123456789...' }, // Using an array means OR: e.g. 20 or 23
     fromBlock: 0
 }, function(error, event) {
     if (!error) {
         event_happened = true;
-        sender = event.returnValues.sender;
+        sender = event.returnValues.user.toLowerCase();
+        console.log('event sender',sender);
+        ip = event.returnValues.ip;
+        console.log('event ip', ip);
         token = event.returnValues.token;
+        console.log(token);
         console.log("\x1b[42m", "[+] Authentication Event Arrived");
+        console.log("\x1b[0m", "\n");
+    }else{
+        console.log("\x1b[31m", "[+] Error occured while distributing token");
         console.log("\x1b[0m", "\n");
     }
 });
@@ -53,7 +61,7 @@ app.post('/auth_data', urlencodedParser, function(req, res) {
     if (event_happened) {
         // console.log('sender', sender);
         // console.log('token', token);
-        res.end(JSON.stringify({ sender: sender, token: token }, null, 4));
+        res.end(JSON.stringify({ sender: sender, token: token, ip: ip }, null, 4));
         res.send();
     } else {
         // console.log('welcome to iot device');
@@ -70,13 +78,33 @@ app.post('/connect', urlencodedParser, function(req, res) {
     console.log('Connected Client: ' + req.socket.remoteAddress + ":" + req.socket.remotePort);
 
     message = req.body.message.split(',');
-    console.log('message', message[0]);
-
-    if (token == message[0]) {
-        console.log("\x1b[42m", "[+] User Validated .. Access Granted");
-        console.log("\x1b[0m", "\n");
-        res.end(JSON.stringify({ message: 'Access Granted' }, null, 4));
-        res.send();
+    console.log('message', message);
+    console.log('message token', message[0]);
+    console.log('message ip', message[1]);
+    console.log('message sender', message[2]);
+    
+    console.log('sender r', sender);
+    
+    if (token == message[0] ) {
+        if(ip == message[1]){
+            if(sender == message[2].toLowerCase()){
+                console.log("\x1b[42m", "[+] User Validated .. Access Granted");
+                console.log("\x1b[0m", "\n");
+                res.end(JSON.stringify({ message: 'Access Granted' }, null, 4));
+                res.send();
+            }else{
+                console.log("\x1b[31m", "[+] Invalid Sender Address .. Access Denied");
+                console.log("\x1b[0m", "\n");
+                res.end(JSON.stringify({ message: 'Access Denied' }, null, 4));
+                res.send();
+            }
+        }else{
+            console.log("\x1b[31m", "[+] Invalid IP Address .. Access Denied");
+            console.log("\x1b[0m", "\n");
+            res.end(JSON.stringify({ message: 'Access Denied' }, null, 4));
+            res.send();
+        }
+        
     } else {
         console.log("\x1b[31m", "[+] Invalid Token .. Access Denied");
         console.log("\x1b[0m", "\n");

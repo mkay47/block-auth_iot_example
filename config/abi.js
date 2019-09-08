@@ -1,38 +1,139 @@
-module.exports = [{
-        "anonymous": false,
-        "inputs": [{
-                "indexed": false,
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "name": "token",
-                "type": "bytes32"
-            }
-        ],
-        "name": "LoginAttempt",
-        "type": "event"
+module.exports = [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "deviceCount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-        "constant": false,
-        "inputs": [],
-        "name": "rand",
-        "outputs": [{
-            "name": "",
-            "type": "bytes32"
-        }],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "devices",
+      "outputs": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "ip",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-        "constant": false,
-        "inputs": [],
-        "name": "login_admin",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "ip",
+          "type": "string"
+        }
+      ],
+      "name": "DeviceAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "ip",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "token",
+          "type": "bytes32"
+        }
+      ],
+      "name": "DistributeToken",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "ip",
+          "type": "string"
+        }
+      ],
+      "name": "addDevice",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "rand",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "ip",
+          "type": "string"
+        }
+      ],
+      "name": "login_admin",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
-];
+  ]
