@@ -9,6 +9,11 @@ var abi = require('./config/abi');
 
 var Web3 = require('web3');
 
+var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+
+var bedroomLED = new Gpio(12, 'out'); //use GPIO pin 4, and specify that it is output
+var kitchenLED = new Gpio(21, 'out'); //use GPIO pin 4, and specify that it is output
+
 //var web3 = new Web3(Web3.providers.WebsocketProvider('ws://192.168.8.106:8545'));
 var web3 = new Web3(Web3.currentProvider || 'ws://192.168.8.106:8545');
 
@@ -18,6 +23,7 @@ var token = '';
 var sender = '';
 var ip = '192.168.8.186:8081';
 var message = '';
+var signature ='';
 var event_happened = false;
 
 auth.once('DistributeToken', {
@@ -111,6 +117,22 @@ app.post('/connect', urlencodedParser, function(req, res) {
         res.end(JSON.stringify({ message: 'Access Denied' }, null, 4));
         res.send();
     }
+
+});
+
+app.post('/lights/on', function(req, res) {
+    kitchenLED.writeSync(1); //set pin state to 1 (turn LED on)
+    bedroomLED.writeSync(1); //set pin state to 1 (turn LED on)
+    res.end(JSON.stringify({ message: 'lights turned on' }, null, 4));
+    res.send();
+
+});
+
+app.post('/lights/off', function(req, res) {
+    kitchenLED.writeSync(0); //set pin state to 0 (turn LED off)
+    bedroomLED.writeSync(0); //set pin state to 0 (turn LED off)
+    res.end(JSON.stringify({ message: 'lights turned off' }, null, 4));
+    res.send();
 
 });
 
