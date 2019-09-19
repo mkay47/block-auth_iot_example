@@ -11,20 +11,26 @@ var Web3 = require('web3');
 
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
+var ethUtil = require('ethereumjs-util');
+
 var bedroomLED = new Gpio(12, 'out'); //use GPIO pin 4, and specify that it is output
 var kitchenLED = new Gpio(21, 'out'); //use GPIO pin 4, and specify that it is output
 
 //var web3 = new Web3(Web3.providers.WebsocketProvider('ws://192.168.8.106:8545'));
-var web3 = new Web3(Web3.currentProvider || 'ws://192.168.8.106:8545');
+//var web3 = new Web3(Web3.currentProvider || 'ws://192.168.8.106:8545');
+
+var web3 = new Web3(Web3.givenProvider || 'ws://192.168.8.106:8545');
 
 var auth = new web3.eth.Contract(abi, address);
 
 var token = '';
 var sender = '';
+var role = '';
 var ip = '192.168.8.186:8081';
 var message = '';
 var signature ='';
 var event_happened = false;
+var access_granted = false;
 
 auth.once('DistributeToken', {
     filter: { myIndexedParam: [20, 23], myOtherIndexedParam: '0x123456789...' }, // Using an array means OR: e.g. 20 or 23
@@ -37,11 +43,14 @@ auth.once('DistributeToken', {
         ip = event.returnValues.ip;
         console.log('event ip', ip);
         token = event.returnValues.token;
-        console.log(token);
+        console.log('event token',token);
+        role = event.returnValues.role;
+        console.log('event role',role);
         console.log("\x1b[42m", "[+] Authentication Event Arrived");
         console.log("\x1b[0m", "\n");
     }else{
         console.log("\x1b[31m", "[+] Error occured while distributing token");
+        console.log("\x1b[31m", "[+] Try Again......");
         console.log("\x1b[0m", "\n");
     }
 });
@@ -67,7 +76,7 @@ app.post('/auth_data', urlencodedParser, function(req, res) {
     if (event_happened) {
         // console.log('sender', sender);
         // console.log('token', token);
-        res.end(JSON.stringify({ sender: sender, token: token, ip: ip }, null, 4));
+        res.end(JSON.stringify({ sender: sender, token: token, ip: ip, role: role }, null, 4));
         res.send();
     } else {
         // console.log('welcome to iot device');
@@ -88,7 +97,6 @@ app.post('/connect', urlencodedParser, function(req, res) {
     console.log('message token', message[0]);
     console.log('message ip', message[1]);
     console.log('message sender', message[2]);
-    
     console.log('sender r', sender);
     
     if (token == message[0] ) {
@@ -96,6 +104,7 @@ app.post('/connect', urlencodedParser, function(req, res) {
             if(sender == message[2].toLowerCase()){
                 console.log("\x1b[42m", "[+] User Validated .. Access Granted");
                 console.log("\x1b[0m", "\n");
+                access_granted = true;
                 res.end(JSON.stringify({ message: 'Access Granted' }, null, 4));
                 res.send();
             }else{
@@ -121,18 +130,29 @@ app.post('/connect', urlencodedParser, function(req, res) {
 });
 
 app.post('/lights/on', function(req, res) {
-    kitchenLED.writeSync(1); //set pin state to 1 (turn LED on)
-    bedroomLED.writeSync(1); //set pin state to 1 (turn LED on)
-    res.end(JSON.stringify({ message: 'lights turned on' }, null, 4));
-    res.send();
+    if(access_granted){
+        kitchenLED.writeSync(1); //set pin state to 1 (turn LED on)
+        bedroomLED.writeSync(1); //set pin state to 1 (turn LED on)
+        res.end(JSON.stringify({ message: 'lights turned on' }, null, 4));
+        res.send();
+    }else{
+        res.end(JSON.stringify({ message: 'access denied' }, null, 4));
+        res.send();
+    }
+    
 
 });
 
 app.post('/lights/off', function(req, res) {
-    kitchenLED.writeSync(0); //set pin state to 0 (turn LED off)
-    bedroomLED.writeSync(0); //set pin state to 0 (turn LED off)
-    res.end(JSON.stringify({ message: 'lights turned off' }, null, 4));
-    res.send();
+    if(access_granted){
+        kitchenLED.writeSync(0); //set pin state to 0 (turn LED off)
+        bedroomLED.writeSync(0); //set pin state to 0 (turn LED off)
+        res.end(JSON.stringify({ message: 'lights turned off' }, null, 4));
+        res.send();
+    }else{
+        res.end(JSON.stringify({ message: 'access denied' }, null, 4));
+        res.send();
+    }
 
 });
 

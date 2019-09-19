@@ -1,25 +1,7 @@
 module.exports = [
     {
       "constant": true,
-      "inputs": [],
-      "name": "deviceCount",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
       "inputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        },
         {
           "name": "",
           "type": "uint256"
@@ -28,12 +10,38 @@ module.exports = [
       "name": "devices",
       "outputs": [
         {
+          "name": "id",
+          "type": "uint256"
+        },
+        {
           "name": "name",
           "type": "string"
         },
         {
           "name": "ip",
           "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "deviceCount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -63,9 +71,41 @@ module.exports = [
           "indexed": false,
           "name": "ip",
           "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "role",
+          "type": "string"
         }
       ],
       "name": "DeviceAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "ip",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "role",
+          "type": "string"
+        }
+      ],
+      "name": "DeviceUpdated",
       "type": "event"
     },
     {
@@ -85,6 +125,11 @@ module.exports = [
           "indexed": false,
           "name": "token",
           "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "role",
+          "type": "string"
         }
       ],
       "name": "DistributeToken",
@@ -100,9 +145,39 @@ module.exports = [
         {
           "name": "ip",
           "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
         }
       ],
       "name": "addDevice",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_id",
+          "type": "uint256"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "ip",
+          "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
+        }
+      ],
+      "name": "updateDevice",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -127,6 +202,10 @@ module.exports = [
       "inputs": [
         {
           "name": "ip",
+          "type": "string"
+        },
+        {
+          "name": "role",
           "type": "string"
         }
       ],
